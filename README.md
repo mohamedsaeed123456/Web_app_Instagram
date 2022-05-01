@@ -1,11 +1,9 @@
 # Web_app_Instagram
 Instagram web application
-#اول حاجة عشان تشغل التطبيق علي أصب.نت  يجب عليك تصدير ملف Instagram.project.bacpac للداتا بيز لديك  يمكن ان تعرف كيف يتم اصداره هنا
+#The first thing you need to run the application on Asb.net is to export the Instagram.project.bacpac file to your database. You can find out how it is released here
 
 https://www.youtube.com/watch?v=5wYDqvreszo
 
+And after that you have to do db first and then run the application and enjoy.
 
-ومن بعد ذلك يجب عليك ان تفعل db first وبعد ذلك رن التطبيق واستمتع .
-
-
-بواسطة محمد سعيد &&محمد عبد الفتاح && محمد محمود عبد الفتاح && محمد عز الدين يونس && محمد خالد شعيب عبد المجيد 
+By Mohamed Said && Mohamed Abdel Fattah && Mohamed Mahmoud Abdel Fattah && Mohamed Ezz El-Din Younes && Mohamed Khaled Shuaib Abdel Majid
