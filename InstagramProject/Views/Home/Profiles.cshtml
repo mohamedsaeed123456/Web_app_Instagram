@@ -1,0 +1,268 @@
+﻿@model InstagramProject.Models.Signup_SaveImage
+@{
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ProfilePage</title>
+    <link rel="stylesheet" href="~/CSS/homepage.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+
+
+            <div class="profile">
+
+               
+
+                        <div class="profile-image">
+
+                            <img src="@Url.Content(Model.sign.ProfileImage)" alt="">
+
+                        </div>
+
+                        <div class="profile-user-settings">
+
+                            <h1 class="profile-user-name">
+                                @Model.sign.firstname @Model.sign.lastname
+
+                            </h1>
+                            @{
+                                var x = false;
+                                var y = false;
+                            }
+                            @{
+                                if (Model.friend.FirstOrDefault() != null)
+                                {
+                                    if (Model.friend.Count() > 0 || Model.friend.FirstOrDefault().Signup1.Friends1.Count() > 0)
+                                    {
+                                        foreach (var item in Model.friend)
+                                        {
+                                            if (item.User_request_toID == Model.sign.Id && item.User_requestID == (int)Session["id"] && item.IsAccept == true || item.User_requestID == Model.sign.Id && item.User_request_toID == (int)Session["id"] && item.IsAccept == true)
+
+                                            {
+                                                x = !x;
+                                            }
+
+                                            else if (item.IsAccept == false)
+                                            {
+                                                y = !y;
+                                            }
+
+
+                                        }
+                                        if (x == true)
+                                        {
+                                            <h1 style="margin-left:300px; font-size:15px;color:#ffd800;cursor:pointer;width:130px;height:20px;background-color:cadetblue;text-align:center;">MyFriend</h1>
+
+                                        }
+                                        else if (y == true)
+                                        {
+                                            <h1 style="margin-left:300px; font-size:20px;color:#ffd800;cursor:pointer;width:250px;height:25px;background-color:cadetblue;text-align:center;">wait the friend accept request</h1>
+
+                                        }
+                                        else
+                                        {
+                                            <form id="add_friend_form" method="post" action="#">
+                                                <input type="text" name="User_requestID" value="@Session["id"]" style="display:none;">
+                                                <input type="text" name="User_request_toID" value="@Model.sign.Id" style="display:none;">
+                                                <input type="text" name="IsAccept" value="false" style="display:none;">
+                                                <a href="javascript:void(0)" id="add_friend" style="color:blue;">
+                                                    <input value="Add Friend" id="add" type="button" style="margin-left:300px;" class="btn profile-edit-btn">
+                                                    <button class="btn profile-settings-btn" id="plus" aria-label="profile settings">
+                                                        <i class="fas fa-plus" aria-hidden="true"></i>
+                                                    </button>
+                                                </a>
+                                            </form>
+                                        }
+
+
+
+                                    }
+                                    else
+                                    {
+                                        <form id="add_friend_form" method="post" action="#">
+                                            <input type="text" name="User_requestID" value="@Session["id"]" style="display:none;">
+                                            <input type="text" name="User_request_toID" value="@Model.sign.Id" style="display:none;">
+                                            <input type="text" name="IsAccept" value="false" style="display:none;">
+                                            <a href="javascript:void(0)" id="add_friend" style="color:blue;">
+                                                <input value="Add Friend" id="add" type="button" style="margin-left:300px;" class="btn profile-edit-btn">
+                                                <button class="btn profile-settings-btn" id="plus" aria-label="profile settings">
+                                                    <i class="fas fa-plus" aria-hidden="true"></i>
+                                                </button>
+                                            </a>
+                                        </form>
+                                    }
+                                }
+                                else
+                                {
+                                    <form id="add_friend_form" method="post" action="#">
+                                        <input type="text" name="User_requestID" value="@Session["id"]" style="display:none;">
+                                        <input type="text" name="User_request_toID" value="@Model.sign.Id" style="display:none;">
+                                        <input type="text" name="IsAccept" value="false" style="display:none;">
+                                        <a href="javascript:void(0)" id="add_friend" style="color:blue;">
+                                            <input value="Add Friend" id="add" type="button" style="margin-left:300px;" class="btn profile-edit-btn">
+                                            <button class="btn profile-settings-btn" id="plus" aria-label="profile settings">
+                                                <i class="fas fa-plus" aria-hidden="true"></i>
+                                            </button>
+                                        </a>
+                                    </form>
+                                }
+                            }
+
+
+
+
+
+
+                            <div id="alert" class="alert alert-success" style="font-size:20px;left:50px;color:#4541a5"> <strong></strong></div>
+
+
+
+
+
+
+
+                        </div>
+                   
+              
+
+
+
+
+               
+                
+
+
+
+
+                        <div class="profile-stats">
+
+                            <ul>
+                                <li><span class="profile-stat-count">@Model.image.Count()</span> images</li>
+                                @{
+                                    if (Model.sign.Friends1.Where(c => c.IsAccept == true).ToList().Count() > 0)
+                                    {
+                                        <li><span class="profile-stat-count">@Model.sign.Friends1.Where(c => c.IsAccept == true).ToList().Count()</span> Friends</li>
+                                    }
+                                    else if (Model.sign.Friends.Where(c => c.IsAccept == true).ToList().Count() > 0)
+                                    {
+                                        <li><span class="profile-stat-count">@Model.sign.Friends.Where(c => c.IsAccept == true).ToList().Count()</span> Friends</li>
+                                    }
+                                    else
+                                    {
+                                        <li><span class="profile-stat-count">0</span> Friends</li>
+
+                                    }
+                                }
+                            </ul>
+
+                        </div>
+                    
+
+                <!-- <div class="profile-bio">
+
+                    <p><span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+
+                </div>
+                   -->
+
+            </div>
+
+            <!-- End of profile section -->
+
+        </div>
+        <!-- End of container -->
+
+    </header>
+
+    <main>
+
+        <div class="container">
+
+            <div class="gallery">
+
+                @{
+
+                    if (Model.image.Count() > 0)
+                    {
+                        foreach (var item in Model.image)
+                        {
+
+
+                            <a href="Images_Comment?id=@item.ImageID">
+                                <div class="gallery-item" tabindex="0">
+
+                                    <img class="gallery-image" src="@Url.Content(item.image_post)" alt="">
+
+                                    <div class="gallery-item-info">
+
+                                        <ul>
+                                            <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i>  @item.Likes1.Count()</li>
+                                            <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i>  @item.Comments.Count()</li>
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+                            </a>
+                        }
+
+                    }
+                    else
+                    {
+                        <center>
+                            <div class="not_image">
+                                <h2>Not Image Yet</h2>
+                            </div>
+                        </center>
+                    }
+                }
+
+
+
+
+
+
+            </div>
+        </div>
+
+
+    </main>
+
+
+    <script>
+        $(document).ready(function () {
+            $("#add_friend").click(function () {
+                if ($("#add_friend_form").valid()) {
+                    var formData = $("#add_friend_form").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/Add_friend",
+                        data: formData,
+                        success: function (response) {
+                            if (response.result == 1) {
+                                document.getElementById('alert').innerHTML = "The Friend is added.Now, wait the friend accept request";
+                                document.getElementById('add_friend_form').style.display = "none";
+
+                            }
+                            else {
+                                $("#failed_add_friend").show(2000);
+                                $("#failed_add_friend").hide(2000);
+                            }
+                        }
+
+
+                    })
+                }
+
+            })
+        })
+    </script>
+</body>
+</html>

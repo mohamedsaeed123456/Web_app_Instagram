@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InstagramModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Save_image">
+    <Key>
+      <PropertyRef Name="ImageID" />
+    </Key>
+    <Property Name="ImageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="image_post" Type="nvarchar(max)" />
+    <Property Name="User_id" Type="int" />
+  </EntityType>
+  <EntityType Name="Signup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstname" Type="varchar" MaxLength="50" />
+    <Property Name="lastname" Type="nvarchar" MaxLength="50" />
+    <Property Name="email" Type="nvarchar" MaxLength="50" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="50" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" />
+    <Property Name="ProfileImage" Type="nvarchar(max)" />
+  </EntityType>
+  <Association Name="FK_Save_image_ToTable">
+    <End Role="Signup" Type="Self.Signup" Multiplicity="0..1" />
+    <End Role="Save_image" Type="Self.Save_image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Save_image">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="InstagramModelStoreContainer">
+    <EntitySet Name="Save_image" EntityType="Self.Save_image" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Signup" EntityType="Self.Signup" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Save_image_ToTable" Association="Self.FK_Save_image_ToTable">
+      <End Role="Signup" EntitySet="Signup" />
+      <End Role="Save_image" EntitySet="Save_image" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

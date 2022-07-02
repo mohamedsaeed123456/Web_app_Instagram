@@ -1,0 +1,250 @@
+﻿@model InstagramProject.Models.Save_image
+@{
+    ViewBag.Title = "Images_Comment";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>HomePage</title>
+    <link rel="stylesheet" href="~/CSS/Profilepage.css">
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+ 
+</head>
+<div class='light x1'></div>
+<div class='light x2'></div>
+<div class='light x3'></div>
+<div class='light x4'></div>
+<div class='light x5'></div>
+<div class='light x6'></div>
+<div class='light x7'></div>
+<div class='light x8'></div>
+<div class='light x9'></div>
+<section class="hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+
+
+
+
+                <div class="cardbox shadow-lg bg-white">
+
+                    <div class="cardbox-heading">
+
+                        <div class="media m-0">
+                            <div class="d-flex mr-3">
+                                <a href=""><img class="img-fluid rounded-circle" src="@Url.Content(Model.Signup.ProfileImage)" alt="User"></a>
+                            </div>
+                            <div class="media-body">
+                                <p class="m-0">@Model.Signup.firstname @Model.Signup.lastname</p>
+                                <small><span><i class="icon ion-md-time"></i>@DateTime.Now.Hour hour</span></small>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="cardbox-item">
+                        <img class="img-fluid" src="@Url.Content(Model.image_post)" alt="Image">
+                    </div><!--/ cardbox-item -->
+                    <div class="cardbox-base">
+                        <ul class="float-right">
+                            <li><a><i class="fa fa-comments"></i></a></li>
+                            <li><a><em class="mr-5">@Model.Comments.Count()</em></a></li>
+                        </ul>
+
+
+
+
+                        <ul>
+                            <li id="UN"><a href="javascript:void(0)" class="unlike" id="disabled1" data-id="@Model.ImageID"><i class="fa fa-thumbs-down"></i></a></li>
+
+                        </ul>
+                        <ul>
+                            <li id="L"><a href="javascript:void(0)" class="like" id="disabled2" data-id="@Model.ImageID"><i class="fa fa-thumbs-up"></i></a></li>
+                            <li id="LI" style="display:none;"><a><i class="fa fa-heart fa-lg text-danger" style="color:red;"></i></a></li>
+                            <li><a><span id="like">@Model.Likes</span></a></li>
+
+                        </ul>
+                        @{if (Model.Likes1.Any(x => x.UserID == (int)Session["id"] && x.ImageID == Model.ImageID))
+                            {
+                                <script>
+                                    document.getElementById("disabled2").style.pointerEvents = "none";
+                                </script>
+                            }
+                            else
+                            {
+                                <script>
+                                    document.getElementById("disabled1").style.pointerEvents = "none";
+                                </script>
+                            }
+                        }
+
+
+
+
+                    </div>
+
+
+                </div>
+                <div class="panel-footer">
+                    <button type="button" class="btn btn-default Comment" data-id="@Model.ImageID" value="Comment">
+                        <span class="fas fa-comment" aria-hidden="true"></span> Comment
+                    </button>
+
+                </div>
+                <div id="@string.Format("{0}_{1}","commentsBlock", Model.ImageID)" style="border: 1px solid #f1eaea; background-color: #eaf2ff;width:87.9%;">
+
+                    <div class="AddComment" style="margin-left: 30%;  margin-bottom: 5px; margin-top: 8px;">
+                        <input type="text" id="@string.Format("{0}_{1}", "comment", Model.ImageID)" class="form-control" placeholder="Add a Comment ..." style="display: inline;" />
+                        <button type="button" class="btn btn-default addComment" data-id="@Model.ImageID"><span class="fas fa-comment" aria-hidden="true"></span></button>
+                    </div>
+
+                </div>
+
+
+            </div><!--/ col-lg-6 -->
+
+
+        </div>
+
+
+        <script type="text/javascript">
+
+
+        $(document).ready(function () {
+
+
+            //Click Comment
+            $('.Comment').on('click', function () {
+
+                var id = $(this).attr("data-id");
+                var allCommentsArea = $('<div>').addClass('allComments_' + id);
+
+                //function that allow us to get all comments related to post id
+                $.ajax({
+
+                    type: 'GET',
+                    url: '@Url.Action("GetComments", "Home")',
+                    data: { ImageID: id },
+                    success: function (response) {
+
+                        if ($('div').hasClass('allComments_' + id + ''))
+                        {
+                            $('div[class=allComments_' + id + ']').remove();
+                        }
+                        //console.log(response);
+
+
+                        allCommentsArea.html(response);
+                        allCommentsArea.prependTo('#commentsBlock_' + id);
+
+
+                    },
+                    error: function (response) {
+                        alert('Sorry: Comments cannot be loaded !');
+                    }
+
+
+                })
+
+            });
+
+            //Add New Comment
+            $('.addComment').on('click', function () {
+
+                var ImageID = $(this).attr('data-id');
+                var CommentText = $('#comment_' + ImageID).val();
+
+                //alert('Hello');
+                var comment = {
+                    CommentText: CommentText,
+                };
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("AddComment", "Home")',
+                    data: { comment, ImageID },
+                    success: function (response) {
+
+                        $('div[class=allComments_' + ImageID + ']').remove();
+
+                        var allCommentsArea = $('<div>').addClass('allComments_' + ImageID);
+                        allCommentsArea.html(response);
+
+                        allCommentsArea.prependTo('#commentsBlock_' + ImageID);
+
+                    },
+                    error: function (response) {
+                        alert('Sorry: Something Wrong');
+                    }
+
+                });
+
+            });
+
+
+        });
+
+        </script>
+
+
+        <script>
+            $(document).ready(function () {
+                //LIKE
+                $('a.like').on('click', function () {
+                    var id = $(this).data("id");
+                    var link = "/Home/LikeThis/" + id;
+                    var a = $(this);
+                    $.ajax({
+                        type: "GET",
+                        url: link,
+                        success: function (result) {
+                            document.getElementById("LI").style.display = "block";
+                            document.getElementById("like").innerHTML = result;
+                            document.getElementById("L").style.display = "none";
+                            document.getElementById("disabled1").style.pointerEvents = "initial";
+
+                        }
+                    });
+                });
+            });
+
+        </script>
+        <script>
+            $(document).ready(function () {
+                //UNLIKE
+                $('a.unlike').on('click', function () {
+                    var id = $(this).data("id");
+                    var link = "/Home/UnlikeThis/" + id;
+                    var a = $(this);
+                    $.ajax({
+                        type: "GET",
+                        url: link,
+                        success: function (result) {
+                            document.getElementById("like").innerHTML = result;
+                            document.getElementById("L").style.display = "block";
+                            document.getElementById("LI").style.display = "none";
+                            document.getElementById("disabled2").style.pointerEvents = "initial";
+
+
+
+
+                        }
+                    });
+                });
+
+            });
+        </script>
+
+
+    </div>
+</section>
+
+
+</html>

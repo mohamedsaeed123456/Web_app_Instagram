@@ -1,0 +1,242 @@
+﻿@model InstagramProject.Models.Signup_SaveImage
+
+@{
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ProfilePage</title>
+    <link rel="stylesheet" href="~/CSS/homepage.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+
+</head>
+<body>
+    <header>
+
+        <div class="container">
+
+            <div class="profile">
+
+                <div class="profile-image">
+
+                    <img src="@Url.Content(Model.sign.ProfileImage)" alt="">
+
+                </div>
+
+                <div class="profile-user-settings">
+
+                    <h1 class="profile-user-name">
+                        @Model.sign.firstname @Model.sign.lastname
+
+                    </h1>
+
+                    <button onclick="window.location.href = 'EditProfile?id=@Session["id"]';" class="btn profile-edit-btn">Edit Profile</button>
+                    <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog" aria-hidden="true"></i></button>
+                    <button id="add_image" class="btn profile-edit-btn">Add images</button>
+                    <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-edit" aria-hidden="true"></i></button>
+                </div>
+
+
+
+
+                <div class="popup">
+
+
+                    <div class="close-btn">&times;</div>
+                    <h2>Create image</h2>
+                    <hr>
+                    <br><br><br>
+                    <form id="create_image" action="#" method="post" enctype="multipart/form-data">
+                        <div class="form-element">
+                            <br><br><br><br><br><br>
+                            <label for="image">Please select image from computer</label>
+                            <br><br><br>
+                            <input style="display:none;" type="text" name="UserID" id="UserID" value="@Session["id"]" required>
+                            <input style="display:none;" type="text" name="Likes" id="Likes" value="0">
+                            <label for="Imagefile" id="form-element">
+                                Select Image <br />
+                                <i class="fa fa-2x fa-camera"></i>
+                                <input name="Imagefile" id="Imagefile" placeholder="ProfileImage" type="file">
+                                <br />
+                                <span id="imageName"></span>
+                            </label>
+                        </div>
+                        <br><br>
+                        <div class="form-element">
+                            <input id="Save" type="button" value="Save">
+                        </div>
+                        <div class="alert alert-success" style="display:none;color:green;width:100%;background-color:#97d483;font-size:17px;" id="success_create">
+                            <strong> Created Successfully</strong>
+                        </div>
+                        <div class="alert alert-danger" style="display:none;" id="failed_create">
+                            <strong>created Failed , Please create again </strong>
+                        </div>
+                    </form>
+                </div>
+
+
+
+
+
+                <div class="profile-stats">
+
+                    <ul>
+                        <li><span class="profile-stat-count">@Model.image.Count()</span> images</li>
+                        @if (Model.sign.Friends1.Where(c => c.IsAccept == true).ToList().Count() > 0)
+                        {
+                            <li><span class="profile-stat-count">@Model.sign.Friends1.Where(c => c.IsAccept == true).ToList().Count()</span> Friends</li>
+                        }
+                        else if (Model.sign.Friends.Where(c => c.IsAccept == true).ToList().Count() > 0)
+                        {
+                            <li><span class="profile-stat-count">@Model.sign.Friends.Where(c => c.IsAccept == true).ToList().Count()</span> Friends</li>
+                        }
+                        else
+                        {
+                            <li><span class="profile-stat-count">0</span> Friends</li>
+
+                        }
+                    </ul>
+
+                </div>
+
+
+                <!-- <div class="profile-bio">
+
+                    <p><span class="profile-real-name">Jane Doe</span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+
+                </div>
+                   -->
+
+            </div>
+            <!-- End of profile section -->
+
+        </div>
+        <!-- End of container -->
+
+    </header>
+
+    <main>
+        <div class='light x1'></div>
+        <div class='light x2'></div>
+        <div class='light x3'></div>
+        <div class='light x4'></div>
+        <div class='light x5'></div>
+        <div class='light x6'></div>
+        <div class='light x7'></div>
+        <div class='light x8'></div>
+        <div class='light x9'></div>
+        <div class="container">
+
+            <div class="gallery">
+
+                @{
+
+                    if (Model.image.Count() > 0)
+                    {
+                        foreach (var item in Model.image)
+                        {
+
+                            <a href="Images_Comment?id=@item.ImageID">
+                                <div class="gallery-item" tabindex="0">
+
+                                    <img class="gallery-image" src="@Url.Content(item.image_post)" alt="">
+
+                                    <div class="gallery-item-info">
+
+                                        <ul>
+                                            <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i>  @item.Likes1.Count()</li>
+                                            <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i>  @item.Comments.Count()</li>
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+                            </a>
+
+
+
+                        }
+                    }
+                    else
+                    {
+                        <center>
+                            <div class="not_image">
+                                <h2>Not Image Yet</h2>
+                            </div>
+                        </center>
+                    }
+                }
+
+
+
+
+
+
+            </div>
+        </div>
+
+
+    </main>
+
+    <script>
+        let input = document.getElementById("Imagefile");
+        let imageName = document.getElementById("imageName")
+        input.addEventListener("change", () => {
+            let inputImage = document.querySelector("input[type=file]").files[0];
+
+            imageName.innerText = inputImage.name;
+        })
+    </script>
+    <script>
+        let add_image = document.querySelector('#add_image')
+        let popup = document.querySelector('.popup')
+        let close_btn = document.querySelector('.close-btn')
+        add_image.addEventListener('click', function () {
+            popup.classList.add('active')
+            document.body.style.backgroundColor = "rgba(0, 0, 0, .3)"
+            document.body.style.overflow = "hidden"
+        })
+
+        close_btn.addEventListener('click', function () {
+            popup.classList.remove('active')
+            document.body.style.backgroundColor = "white"
+            document.body.style.overflowY = "scroll"
+        })
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $("#Save").click(function () {
+                if ($("#create_image").valid()) {
+                    var frm = $('#create_image');
+                    var formData = new FormData(frm[0]);
+                    formData.append('file', $('input[type=file]')[0].files[0]);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/Save_image",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            if (response.result == 1) {
+                                $("#success_create").show(2000);
+                                $("#success_create").hide(2000);
+                            }
+                            else {
+                                $("#failed_create").show(2000);
+                                $("#failed_create").hide(2000);
+                            }
+                        }
+
+
+                    })
+                }
+
+            })
+        })
+    </script>
+</body>
+</html>

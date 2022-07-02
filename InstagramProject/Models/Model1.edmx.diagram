@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="191c12bddf6a4340903dfa9bc514e28a" Name="Diagram1">
+        <EntityTypeShape EntityType="InstagramModel.Accept" Width="1.5" PointX="5.25" PointY="12.375" />
+        <EntityTypeShape EntityType="InstagramModel.Comment" Width="1.5" PointX="5.25" PointY="7.875" />
+        <EntityTypeShape EntityType="InstagramModel.Friend" Width="1.5" PointX="3" PointY="17.5" />
+        <EntityTypeShape EntityType="InstagramModel.Like" Width="1.5" PointX="5.25" PointY="4.875" />
+        <EntityTypeShape EntityType="InstagramModel.Save_image" Width="1.5" PointX="3" PointY="8.75" />
+        <EntityTypeShape EntityType="InstagramModel.Signup" Width="1.5" PointX="0.75" PointY="6.75" />
+        <AssociationConnector Association="InstagramModel.FK_Accept_ToTable" />
+        <AssociationConnector Association="InstagramModel.FK_Accept_ToTable_1" />
+        <AssociationConnector Association="InstagramModel.FK_Comment_ToTable" />
+        <AssociationConnector Association="InstagramModel.FK_Comment_ToTable_1" />
+        <AssociationConnector Association="InstagramModel.FK_Friends_ToTable" />
+        <AssociationConnector Association="InstagramModel.FK_Friends_ToTable_1" />
+        <AssociationConnector Association="InstagramModel.FK_Like_ToTable" />
+        <AssociationConnector Association="InstagramModel.FK_Like_ToTable_1" />
+        <AssociationConnector Association="InstagramModel.FK_Save_image_ToTable" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

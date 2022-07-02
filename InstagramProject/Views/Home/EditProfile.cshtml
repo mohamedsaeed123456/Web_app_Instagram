@@ -1,0 +1,155 @@
+﻿@model InstagramProject.Models.Signup
+@using System;
+@using System.Collections.Generic;
+@using System.Linq;
+@using System.Web;
+@using System.Web.Mvc;
+
+@{
+
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+<link href="~/CSS/profile.css" rel="stylesheet">
+<div class='light x1'></div>
+<div class='light x2'></div>
+<div class='light x3'></div>
+<div class='light x4'></div>
+<div class='light x5'></div>
+<div class='light x6'></div>
+<div class='light x7'></div>
+<div class='light x8'></div>
+<div class='light x9'></div>
+<div class="wrapper">
+    <div class="profile">
+        <div class="content">
+            <h1>Edit Profile</h1>
+            <form id="edit" action="#" method="post" enctype="multipart/form-data">
+                <!-- Photo -->
+                @Html.HiddenFor(m => m.Id)
+
+
+                <fieldset>
+                    <div class="grid-35">
+                        <label for="avatar">Your Photo</label>
+                    </div>
+                    <div class="grid-65" id="grid-65">
+                        <span class="photo" title="Upload your Avatar!"> <img class="image" src="@Url.Content(Model.ProfileImage)"></span>
+                        <label for="ImageFile">
+                            ProfileImage <br />
+                            <i class="fa fa-2x fa-camera"></i>
+                            <input type="file" class="btn" name="ImageFile" id="ImageFile" />
+
+                            <br />
+                            <span id="imageName"></span>
+                        </label>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="grid-35">
+                        <label for="fname">First Name</label>
+                    </div>
+                    <div class="grid-65">
+                        <input type="text" name="firstname" id="fname" tabindex="1" value="@Model.firstname" />
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="grid-35">
+                        <label for="lname">Last Name</label>
+                    </div>
+                    <div class="grid-65">
+                        <input type="text" name="lastname" id="lname" tabindex="2" value="@Model.lastname" />
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="grid-35">
+                        <label for="location">Email</label>
+                    </div>
+                    <div class="grid-65">
+                        <input type="email" name="email" id="Email" tabindex="4" value="@Model.email" />
+                    </div>
+                </fieldset>
+                <!-- Country -->
+                <fieldset>
+                    <div class="grid-35">
+                        <label for="country">mobile</label>
+                    </div>
+                    <div class="grid-65">
+                        <input type="tel" name="mobile" id="mobile" tabindex="5" value="@Model.mobile" />
+                    </div>
+                </fieldset>
+                <!-- Email -->
+                <fieldset>
+                    <div class="grid-35">
+                        <label for="email">Password</label>
+                    </div>
+                    <div class="grid-65">
+                        <input type="password" name="password" id="password" tabindex="6" value="@Model.password" />
+                    </div>
+                </fieldset>
+
+                <div class="alert alert-success" style="display:none;" id="success">
+                    <strong> Save Successfully</strong>
+                </div>
+                <div class="alert alert-danger" style="display:none;" id="failed">
+                    <strong>Save Failed , Please edit again </strong>
+                </div>
+                <fieldset>
+                    <a href="ProfilePage?id=@Session["id"]">
+                        <input type="button" class="Btn cancel" value="Cancel" />
+                    </a>
+                    <input id="save" type="button" class="Btn" value="Save Changes" />
+                </fieldset>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    let input = document.getElementById("ImageFile");
+    let imageName = document.getElementById("imageName")
+    input.addEventListener("change", () => {
+        let inputImage = document.querySelector("input[type=file]").files[0];
+
+        imageName.innerText = inputImage.name;
+    })
+</script>
+<script>
+    $(document).ready(function () {
+        $("#save").click(function () {
+            if ($("#edit").valid()) {
+                var frm = $('#edit');
+                var formData = new FormData(frm[0]);
+                formData.append('file', $('input[type=file]')[0].files[0]);
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/Edit",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        if (response.result == 1) {
+                            $("#success").show(2000);
+                            $("#success").hide(2000);
+
+
+                        }
+                        else {
+                            $("#failed").show(2000);
+                            $("#failed").hide(2000);
+                        }
+                    }
+
+
+                })
+            }
+
+        })
+    })
+</script>
+

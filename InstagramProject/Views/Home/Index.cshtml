@@ -1,0 +1,78 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <link href="~/Css/home.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+</head>
+<body>
+    <div class="alert alert-success" style="display:none;" id="success">
+        <strong> Login Successfully</strong>
+    </div>
+    <div class="alert alert-danger" style="display:none;" id="failed">
+        <strong>Login Failed , Please enter valid data </strong>
+    </div>
+    <div class="Container">
+        <div class="heading">
+            <h1>Instagram</h1>
+        </div>
+        <form action="#" id="Log" method="post">
+            <div class="form_control">
+
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="form_control">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <input type="button" id="login" value="Log in">
+
+
+        </form>
+    </div>
+    <div class="Con">
+        <span class="span">Don't have an account?</span><a href="Home/signup"> Sign up</a>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#login").click(function () {
+                if ($("#Log").valid()) {
+                    mydata = $("#Log").serialize();
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/Login",
+                        data: mydata,
+                        success: function (response) {
+                            if (response.result == 1) {
+                                $("#success").show(2000);
+                                $("#success").hide(2000);
+                                setTimeout(() => {
+                                    window.location.href = 'Home/ProfilePage?id=' + response.X;
+                                }, 5000);
+
+                            }
+                            else {
+                                $("#failed").show(2000);
+                                $("#failed").hide(2000);
+                            }
+                        }
+
+
+                    })
+                }
+
+            })
+        })
+    </script>
+</body>
+</html>

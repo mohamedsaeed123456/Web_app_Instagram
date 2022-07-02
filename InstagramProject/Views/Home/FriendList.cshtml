@@ -1,0 +1,129 @@
+﻿@model IQueryable<InstagramProject.Models.Friend>
+@{
+}
+<link rel="stylesheet" href="~/CSS/friends.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+<div class='light x1'></div>
+<div class='light x2'></div>
+<div class='light x3'></div>
+<div class='light x4'></div>
+<div class='light x5'></div>
+<div class='light x6'></div>
+<div class='light x7'></div>
+<div class='light x8'></div>
+<div class='light x9'></div>
+<div class="container">
+    <div id="content" class="content p-0">
+        <div class="profile-container">
+            <div class="row row-space-20">
+                <div class="col-md-8">
+                    <div class="tab-content p-0">
+
+                        <div class="tab-pane fade active show" id="profile-friends">
+                            <div class="m-b-10"><b>Friend List</b></div>
+
+                            <ul class="friend-list clearfix">
+
+
+                                @{
+
+                                    var result = false;
+                                    var result1 = false;
+                                    var result2 = true;
+                                }
+                                @{
+
+                                    if (Model.Count() > 0)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+
+                                            if ((item.Signup.Friends.FirstOrDefault().IsAccept == true && item.Signup.Friends.Where(s => s.User_requestID == (int)Session["id"]).ToList().Count() > 0) != true || (item.Signup1.Friends1.FirstOrDefault().IsAccept != true && item.Signup1.Friends1.Where(s => s.User_request_toID == (int)Session["id"]).ToList().Count() == 0) != true)
+                                            {
+                                                if (item.Signup.Friends.FirstOrDefault().IsAccept == true && item.Signup.Friends.Where(s => s.User_requestID == (int)Session["id"]).ToList().Count() > 0)
+                                                {
+
+                                                    result = !result;
+                                                    result2 = false;
+                                                    <li>
+                                                        <a href="/Home/Profiles?id=@item.Signup1.Id">
+                                                            <div class="friend-img"><img src="@Url.Content(item.Signup1.ProfileImage)" alt="" /></div>
+                                                            <div class="friend-info">
+                                                                <h4>@item.Signup1.firstname @item.Signup1.lastname</h4>
+                                                                <p>@item.Signup1.Friends1.Where(c => c.IsAccept == true).ToList().Count() friends</p>
+                                                            </div>
+                                                        </a>
+
+                                                    </li>
+
+                                                }
+
+                                                if (item.Signup1.Friends1.FirstOrDefault().IsAccept == true && item.Signup1.Friends1.Where(s => s.User_request_toID == (int)Session["id"]).ToList().Count() > 0)
+                                                {
+                                                    result1 = !result1;
+                                                    result2 = false;
+                                                    <li>
+                                                        <a href="/Home/Profiles?id=@item.Signup.Id">
+                                                            <div class="friend-img"><img src="@Url.Content(item.Signup.ProfileImage)" alt="" /></div>
+                                                            <div class="friend-info">
+                                                                <h4>@item.Signup.firstname @item.Signup.lastname</h4>
+                                                                <p>@item.Signup.Friends.Where(c => c.IsAccept == true).ToList().Count() friends</p>
+                                                            </div>
+                                                        </a>
+
+                                                    </li>
+                                                }
+
+                                            }
+                                            else
+                                            {
+                                                <center>
+                                                    <div class="not_image">
+                                                        <h2>No friend yet</h2>
+                                                    </div>
+                                                </center>
+                                            }
+                                        }
+                                        if (result == false && result1 == false && result2 == true)
+                                        {
+                                            <center>
+                                                <div class="not_image">
+                                                    <h2>No friend yet</h2>
+                                                </div>
+                                            </center>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <center>
+                                            <div class="not_image">
+                                                <h2>No friend yet</h2>
+                                            </div>
+                                        </center>
+                                    }
+
+
+
+                                }
+
+
+
+
+
+
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

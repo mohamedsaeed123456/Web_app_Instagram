@@ -1,0 +1,229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InstagramModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="InstagramEntities13" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Accepts" EntityType="InstagramModel.Accept" />
+    <EntitySet Name="Comments" EntityType="InstagramModel.Comment" />
+    <EntitySet Name="Friends" EntityType="InstagramModel.Friend" />
+    <EntitySet Name="Likes" EntityType="InstagramModel.Like" />
+    <EntitySet Name="Save_image" EntityType="InstagramModel.Save_image" />
+    <EntitySet Name="Signups" EntityType="InstagramModel.Signup" />
+    <AssociationSet Name="FK_Accept_ToTable" Association="InstagramModel.FK_Accept_ToTable">
+      <End Role="Signup" EntitySet="Signups" />
+      <End Role="Accept" EntitySet="Accepts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Accept_ToTable_1" Association="InstagramModel.FK_Accept_ToTable_1">
+      <End Role="Friend" EntitySet="Friends" />
+      <End Role="Accept" EntitySet="Accepts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_ToTable" Association="InstagramModel.FK_Comment_ToTable">
+      <End Role="Signup" EntitySet="Signups" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_ToTable_1" Association="InstagramModel.FK_Comment_ToTable_1">
+      <End Role="Save_image" EntitySet="Save_image" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Friends_ToTable" Association="InstagramModel.FK_Friends_ToTable">
+      <End Role="Signup" EntitySet="Signups" />
+      <End Role="Friend" EntitySet="Friends" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Friends_ToTable_1" Association="InstagramModel.FK_Friends_ToTable_1">
+      <End Role="Signup" EntitySet="Signups" />
+      <End Role="Friend" EntitySet="Friends" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Like_ToTable" Association="InstagramModel.FK_Like_ToTable">
+      <End Role="Signup" EntitySet="Signups" />
+      <End Role="Like" EntitySet="Likes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Like_ToTable_1" Association="InstagramModel.FK_Like_ToTable_1">
+      <End Role="Save_image" EntitySet="Save_image" />
+      <End Role="Like" EntitySet="Likes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Save_image_ToTable" Association="InstagramModel.FK_Save_image_ToTable">
+      <End Role="Signup" EntitySet="Signups" />
+      <End Role="Save_image" EntitySet="Save_image" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Accept">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userID" Type="Int32" />
+    <Property Name="FriendID" Type="Int32" />
+    <NavigationProperty Name="Signup" Relationship="InstagramModel.FK_Accept_ToTable" FromRole="Accept" ToRole="Signup" />
+    <NavigationProperty Name="Friend" Relationship="InstagramModel.FK_Accept_ToTable_1" FromRole="Accept" ToRole="Friend" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CommentText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="Int32" />
+    <Property Name="Image_ID" Type="Int32" />
+    <NavigationProperty Name="Signup" Relationship="InstagramModel.FK_Comment_ToTable" FromRole="Comment" ToRole="Signup" />
+    <NavigationProperty Name="Save_image" Relationship="InstagramModel.FK_Comment_ToTable_1" FromRole="Comment" ToRole="Save_image" />
+  </EntityType>
+  <EntityType Name="Friend">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="User_requestID" Type="Int32" />
+    <Property Name="User_request_toID" Type="Int32" />
+    <Property Name="IsAccept" Type="Boolean" />
+    <NavigationProperty Name="Accepts" Relationship="InstagramModel.FK_Accept_ToTable_1" FromRole="Friend" ToRole="Accept" />
+    <NavigationProperty Name="Signup" Relationship="InstagramModel.FK_Friends_ToTable" FromRole="Friend" ToRole="Signup" />
+    <NavigationProperty Name="Signup1" Relationship="InstagramModel.FK_Friends_ToTable_1" FromRole="Friend" ToRole="Signup" />
+  </EntityType>
+  <EntityType Name="Like">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="ImageID" Type="Int32" />
+    <Property Name="IsLike" Type="Boolean" />
+    <NavigationProperty Name="Signup" Relationship="InstagramModel.FK_Like_ToTable" FromRole="Like" ToRole="Signup" />
+    <NavigationProperty Name="Save_image" Relationship="InstagramModel.FK_Like_ToTable_1" FromRole="Like" ToRole="Save_image" />
+  </EntityType>
+  <EntityType Name="Save_image">
+    <Key>
+      <PropertyRef Name="ImageID" />
+    </Key>
+    <Property Name="ImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="image_post" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="UserID" Type="Int32" />
+    <Property Name="Likes" Type="Int32" />
+    <NavigationProperty Name="Comments" Relationship="InstagramModel.FK_Comment_ToTable_1" FromRole="Save_image" ToRole="Comment" />
+    <NavigationProperty Name="Likes1" Relationship="InstagramModel.FK_Like_ToTable_1" FromRole="Save_image" ToRole="Like" />
+    <NavigationProperty Name="Signup" Relationship="InstagramModel.FK_Save_image_ToTable" FromRole="Save_image" ToRole="Signup" />
+  </EntityType>
+  <EntityType Name="Signup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Accepts" Relationship="InstagramModel.FK_Accept_ToTable" FromRole="Signup" ToRole="Accept" />
+    <NavigationProperty Name="Comments" Relationship="InstagramModel.FK_Comment_ToTable" FromRole="Signup" ToRole="Comment" />
+    <NavigationProperty Name="Friends" Relationship="InstagramModel.FK_Friends_ToTable" FromRole="Signup" ToRole="Friend" />
+    <NavigationProperty Name="Friends1" Relationship="InstagramModel.FK_Friends_ToTable_1" FromRole="Signup" ToRole="Friend" />
+    <NavigationProperty Name="Likes" Relationship="InstagramModel.FK_Like_ToTable" FromRole="Signup" ToRole="Like" />
+    <NavigationProperty Name="Save_image" Relationship="InstagramModel.FK_Save_image_ToTable" FromRole="Signup" ToRole="Save_image" />
+  </EntityType>
+  <Association Name="FK_Accept_ToTable">
+    <End Type="InstagramModel.Signup" Role="Signup" Multiplicity="0..1" />
+    <End Type="InstagramModel.Accept" Role="Accept" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Accept">
+        <PropertyRef Name="userID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Accept_ToTable_1">
+    <End Type="InstagramModel.Friend" Role="Friend" Multiplicity="0..1" />
+    <End Type="InstagramModel.Accept" Role="Accept" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Friend">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Accept">
+        <PropertyRef Name="FriendID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_ToTable">
+    <End Type="InstagramModel.Signup" Role="Signup" Multiplicity="0..1" />
+    <End Type="InstagramModel.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_ToTable_1">
+    <End Type="InstagramModel.Save_image" Role="Save_image" Multiplicity="0..1" />
+    <End Type="InstagramModel.Comment" Role="Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Save_image">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="Image_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Friends_ToTable">
+    <End Type="InstagramModel.Signup" Role="Signup" Multiplicity="0..1" />
+    <End Type="InstagramModel.Friend" Role="Friend" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Friend">
+        <PropertyRef Name="User_requestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Friends_ToTable_1">
+    <End Type="InstagramModel.Signup" Role="Signup" Multiplicity="0..1" />
+    <End Type="InstagramModel.Friend" Role="Friend" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Friend">
+        <PropertyRef Name="User_request_toID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Like_ToTable">
+    <End Type="InstagramModel.Signup" Role="Signup" Multiplicity="0..1" />
+    <End Type="InstagramModel.Like" Role="Like" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Like">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Like_ToTable_1">
+    <End Type="InstagramModel.Save_image" Role="Save_image" Multiplicity="0..1" />
+    <End Type="InstagramModel.Like" Role="Like" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Save_image">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="Like">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Save_image_ToTable">
+    <End Type="InstagramModel.Signup" Role="Signup" Multiplicity="0..1" />
+    <End Type="InstagramModel.Save_image" Role="Save_image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Save_image">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

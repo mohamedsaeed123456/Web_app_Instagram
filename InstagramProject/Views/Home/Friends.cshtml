@@ -1,0 +1,102 @@
+﻿@model IEnumerable<InstagramProject.Models.Signup>
+@{
+}
+<link rel="stylesheet" href="~/CSS/friends.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+<div class='light x1'></div>
+<div class='light x2'></div>
+<div class='light x3'></div>
+<div class='light x4'></div>
+<div class='light x5'></div>
+<div class='light x6'></div>
+<div class='light x7'></div>
+<div class='light x8'></div>
+<div class='light x9'></div>
+<div class="container">
+    <div id="content" class="content p-0">
+        <div class="profile-container">
+            <div class="row row-space-20">
+                <div class="col-md-8">
+                    <div class="tab-content p-0">
+
+                        <div class="tab-pane fade active show" id="profile-friends">
+                            <div class="m-b-10"><b>Friend List</b></div>
+
+                            <ul class="friend-list clearfix">
+
+                                @{ if (Model.Count() > 0)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+
+                                            if (item.Friends.Where(c => c.IsAccept == true).ToList().Count() > 0)
+                                            {
+                                                <li>
+                                                    <a href="/Home/Profiles?id=@item.Id">
+                                                        <div class="friend-img"><img src="@Url.Content(item.ProfileImage)" alt="" /></div>
+                                                        <div class="friend-info">
+                                                            <h4>@item.firstname @item.lastname</h4>
+                                                            <p>
+                                                                @item.Friends.Where(c => c.IsAccept == true).ToList().Count()  friends
+                                                            </p>
+                                                        </div>
+                                                    </a>
+
+                                                </li>
+                                            }
+
+                                            else if (item.Friends1.Where(c => c.IsAccept == true).ToList().Count() > 0)
+                                            {
+                                                <li>
+                                                    <a href="/Home/Profiles?id=@item.Id">
+                                                        <div class="friend-img"><img src="@Url.Content(item.ProfileImage)" alt="" /></div>
+                                                        <div class="friend-info">
+                                                            <h4>@item.firstname @item.lastname</h4>
+                                                            <p>@item.Friends1.Where(c => c.IsAccept == true).ToList().Count() friends</p>
+                                                        </div>
+                                                    </a>
+
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                <li>
+                                                    <a href="/Home/Profiles?id=@item.Id">
+                                                        <div class="friend-img"><img src="@Url.Content(item.ProfileImage)" alt="" /></div>
+                                                        <div class="friend-info">
+                                                            <h4>@item.firstname @item.lastname</h4>
+                                                            <p>0 friends</p>
+                                                        </div>
+                                                    </a>
+
+                                                </li>
+                                            }
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                        <center>
+                                            <div class="not_image">
+                                                <h2>This user not found</h2>
+                                            </div>
+                                        </center>
+
+                                    }
+                                }
+
+                            </ul>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+

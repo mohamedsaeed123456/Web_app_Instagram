@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="InstagramModel1StoreContainer" CdmEntityContainer="InstagramEntities5">
+    <EntitySetMapping Name="Save_image">
+      <EntityTypeMapping TypeName="InstagramModel1.Save_image">
+        <MappingFragment StoreEntitySet="Save_image">
+          <ScalarProperty Name="ImageID" ColumnName="ImageID" />
+          <ScalarProperty Name="image_post" ColumnName="image_post" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

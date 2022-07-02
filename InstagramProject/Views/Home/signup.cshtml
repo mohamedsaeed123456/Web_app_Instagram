@@ -1,0 +1,111 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <title>Instagram</title>
+    <link href="~/Css/signup.css" rel="stylesheet" />
+    <link rel="icon" href="~/Images/Instagram_icon.png">
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="https://use.fontawesome.com/3a2eaf6206.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+
+</head>
+<body>
+    <div class="alert alert-success" style="display:none;" id="success">
+        <strong> Register Successfully</strong>
+    </div>
+    <div class="alert alert-danger" style="display:none;" id="failed">
+        <strong>Register Failed , Please check data </strong>
+    </div>
+    <div class="Container">
+
+
+        <div class="heading">
+            <h1>Instagram</h1>
+        </div>
+        <form action="#" id="Reg" method="post" enctype="multipart/form-data">
+            <div class="form_control" id="form_control">
+                <label for="ImageFile">
+                    Select ProfileImage <br />
+                    <i class="fa fa-2x fa-camera"></i>
+                    <input name="ImageFile" id="ImageFile" placeholder="ProfileImage" type="file" required>
+                    <br />
+                    <span id="imageName"></span>
+                </label>
+            </div>
+            <div class="form_control">
+                <input type="text" name="firstname" placeholder="Firstname" required>
+            </div>
+            <div class="form_control">
+                <input type="text" name="lastname" placeholder="Lastname" required>
+            </div>
+            <div class="form_control">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="form_control">
+                <input type="tel" name="mobile" placeholder="Mobile" required>
+            </div>
+            <div class="form_control">
+                <input type="password" name="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must Contain at least one number and one uppercase and lowercase and  At least 8 or more character " required>
+            </div>
+            <input id="Register" type="button" value="Sign up">
+        </form>
+    </div>
+    <div class="Con">
+        <span class="span">Have an account?</span><a href="/"> Log in</a>
+    </div>
+
+    <script>
+        let input = document.getElementById("ImageFile");
+        let imageName = document.getElementById("imageName")
+
+        input.addEventListener("change", () => {
+            let inputImage = document.querySelector("input[type=file]").files[0];
+
+            imageName.innerText = inputImage.name;
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#Register").click(function () {
+                if ($("#Reg").valid()) {
+                    var frm = $('#Reg');
+                    var formData = new FormData(frm[0]);
+                    formData.append('file', $('input[type=file]')[0].files[0]);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/Sign",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            if (response.result == 1) {
+                                $("#success").show(2000);
+                                $("#success").hide(2000);
+
+                            }
+                            else {
+                                $("#failed").show(2000);
+                                $("#failed").hide(2000);
+                            }
+                        }
+
+
+                    })
+                }
+
+            })
+        })
+    </script>
+
+</body>
+</html>

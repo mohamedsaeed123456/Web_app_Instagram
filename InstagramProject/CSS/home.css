@@ -1,0 +1,91 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-image: url('../Images/bg-registration-form-7.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.Container {
+    width: 400px;
+    height: 350px;
+    text-align: center;
+    margin-top: 130px;
+    background-color: white;
+    margin-left: 36%;
+    box-shadow: 0 0 20px #0b9498;
+    animation: 1s ease-out 0s 1 slideInFromLeft;
+}
+.Con {
+    width: 400px;
+    height: 30px;
+    text-align: center;
+    margin-top: 20px;
+    background-color: white;
+    margin-left: 36%;
+    box-shadow: 0 0 20px #0b9498;
+    animation: 1s ease-out 0s 1 slideInFromLeft;
+}
+.form_control input {
+    width: 360px;
+    height: 30px;
+    border: 1px solid #aeaeb5;
+    border-radius: 6px;
+    font-size: 14px;
+    margin-top: 10px;
+    padding-left: 10px;
+}
+.form_control input:focus {
+    outline: none;
+    border-color: #808080;
+    box-shadow: 0 0 10px #808080;
+}
+form {
+   margin-top:55px;
+}
+.Container .heading {
+    position: relative;
+    top: 20px;
+    font-family:Segoe UI;
+    font-size:15px;
+}
+.Container input[type="button"] {
+    width: 300px;
+    height: 30px;
+    background-color: #0b9498;
+    margin-top: 30px;
+    color: white;
+    font-size: 15px;
+}
+.Container input[type="button"]:hover{
+    opacity:0.8;
+}
+.Con span {
+   font-size:15px;
+   font-style:normal;
+}
+.Con a {
+   color:#0b9498;
+   text-decoration:none;
+}
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.Container input[type="email"].error,
+.Container input[type="password"].error{
+    border: 1px dashed red;
+    font-weight: 300;
+    color: red;
+}
+
+.Container .form_control label.error {
+    color: red;
+}

@@ -1,0 +1,172 @@
+﻿@model IQueryable<InstagramProject.Models.Friend>
+
+@{
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta name="viewport" content="width=device-width" />
+<title>ProfilePage</title>
+<link rel="stylesheet" href="~/CSS/notification.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha256-2XFplPlrFClt0bIdPgpz8H7ojnk10H69xRqd9+uTShA=" crossorigin="anonymous" />
+
+</head>
+<body>
+    <div class='light x1'></div>
+    <div class='light x2'></div>
+    <div class='light x3'></div>
+    <div class='light x4'></div>
+    <div class='light x5'></div>
+    <div class='light x6'></div>
+    <div class='light x7'></div>
+    <div class='light x8'></div>
+    <div class='light x9'></div>
+    <center>
+        <div class="container mt-3 mb-4">
+            <div class="col-lg-9 mt-4 mt-lg-0">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
+                            <table class="table manage-candidates-top mb-0">
+
+                                <tbody>
+                                    @{if (Model.Count() > 0)
+                                        {
+                                            foreach (var item in Model)
+                                            {
+                                                <tr class="candidates-list">
+                                                    <td class="title">
+                                                        <div class="thumb">
+                                                            <img class="img-fluid" src="@Url.Content(item.Signup.ProfileImage)" alt="@item.Signup.firstname @item.Signup.lastname">
+                                                        </div>
+                                                        <div class="candidate-list-details">
+                                                            <div class="candidate-list-info">
+                                                                <div class="candidate-list-title">
+                                                                    <h5 class="mb-0"><a href="#">@item.Signup.firstname @item.Signup.lastname</a></h5>
+                                                                </div>
+                                                                <div class="candidate-list-option">
+                                                                    <ul class="list-unstyled">
+                                                                        <li style="color:black;"><i class="fas fa-filter pr-1"></i>@item.Signup.Friends.Where(x=>x.IsAccept ==true).ToList().Count() Friends</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+
+
+
+                                                    <td id="No" class="candidate-list-favourite-time text-center">
+                                                        <a href="javascript:void(0)" class="reject" data-id="@item.Id">
+                                                            <button id="reject'+@item.Id+'" class="reject1">Reject</button>
+                                                        </a>
+                                                    </td>
+
+
+                                                    <td id="Yes" class="candidate-list-favourite-time text-center">
+                                                        <a href="javascript:void(0)" class="accept" data-id="@item.Id">
+                                                            <button id="accept'+@item.Id+'" class="accept1">Accept</button>
+                                                        </a>
+                                                    </td>
+
+                                                    @if (item.Accepts.Any(x => x.userID == x.Friend.User_request_toID && x.FriendID == item.Id))
+                                                    {
+
+                                                <script>
+
+                                                                document.getElementById("accept'+@item.Id+'").setAttribute("disabled", "disabled");
+                                                                document.getElementById("reject'+@item.Id+'").setAttribute("disabled", "disabled");
+                                                                document.getElementById("accept'+@item.Id+'").style.opacity = 0.5;
+                                                                document.getElementById("reject'+@item.Id+'").style.opacity = 0.5;
+
+                                                </script>
+                                                    }
+
+
+
+                                                    <td id="Yess" style="display:none;" class="candidate-list-favourite-time text-center">
+                                                        <div style="color:blue;">You accept friend request Now <i class="fa fa-heart fa-lg text-danger" style="color:red;"></i></div>
+
+                                                    </td>
+                                                    <td id="Noo" style="display:none;" class="candidate-list-favourite-time text-center">
+                                                        <div style="color:blue;">You reject friend request Now <i class="fa fa-smile-o" style="color:red;"></i></div>
+
+                                                    </td>
+
+
+
+
+                                                </tr>
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <center>
+                                                <div class="not_image">
+                                                    <h2>No Notifactions</h2>
+                                                </div>
+                                            </center>
+
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </center>
+
+    <script>
+        $(document).ready(function () {
+            //LIKE
+            $('a.accept').on('click', function () {
+                var id = $(this).data("id");
+                var link = "/Home/Accept/" + id;
+                var a = $(this);
+                $.ajax({
+                    type: "GET",
+                    url: link,
+                    success: function (result) {
+                        document.getElementById("Yes").style.display = "none";
+                        document.getElementById("No").style.display = "none";
+                        document.getElementById("Yess").style.display = "block";
+                    }
+                });
+            });
+        });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            //UNLIKE
+            $('a.reject').on('click', function () {
+                var id = $(this).data("id");
+                var link = "/Home/Reject/" + id;
+                var a = $(this);
+                $.ajax({
+                    type: "GET",
+                    url: link,
+                    success: function (result) {
+
+                        document.getElementById("Noo").style.display = "block";
+                        document.getElementById("No").style.display = "none";
+                        document.getElementById("Yes").style.display = "none";
+
+
+
+
+                    }
+                });
+            });
+
+        });
+    </script>
+</body>
+</html>

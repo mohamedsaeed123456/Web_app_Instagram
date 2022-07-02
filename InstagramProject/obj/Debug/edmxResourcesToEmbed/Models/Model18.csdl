@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InstagramModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Save_image">
+    <Key>
+      <PropertyRef Name="ImageID" />
+    </Key>
+    <Property Name="ImageID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="image_post" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="User_id" Type="Int32" />
+    <NavigationProperty Name="Signup" Relationship="InstagramModel.FK_Save_image_ToTable" FromRole="Save_image" ToRole="Signup" />
+  </EntityType>
+  <EntityType Name="Signup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="firstname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="lastname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ProfileImage" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Save_image" Relationship="InstagramModel.FK_Save_image_ToTable" FromRole="Signup" ToRole="Save_image" />
+  </EntityType>
+  <EntityContainer Name="InstagramEntities6" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Save_image" EntityType="Self.Save_image" />
+    <EntitySet Name="Signups" EntityType="Self.Signup" />
+    <AssociationSet Name="FK_Save_image_ToTable" Association="InstagramModel.FK_Save_image_ToTable">
+      <End Role="Signup" EntitySet="Signups" />
+      <End Role="Save_image" EntitySet="Save_image" />
+    </AssociationSet>
+  </EntityContainer>
+  <Association Name="FK_Save_image_ToTable">
+    <End Type="InstagramModel.Signup" Role="Signup" Multiplicity="0..1" />
+    <End Type="InstagramModel.Save_image" Role="Save_image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Save_image">
+        <PropertyRef Name="User_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

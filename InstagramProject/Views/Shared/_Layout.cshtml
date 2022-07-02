@@ -1,0 +1,63 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+    <link rel="icon" href="~/Images/Instagram_icon.png">
+    <link rel="stylesheet" href="~/CSS/navbar.css">
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-timeago/1.4.3/jquery.timeago.js"></script> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-custom navbar-mainbg">
+        <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+                <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fab fa-instagram"></i>Instagram</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="ProfilePage?id=@Session["id"]"><i class="far fa-clone"></i>Profile</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="Notification?id=@Session["id"]"><i class="far fa-chart-bar"></i>Notification</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="FriendList?id=@Session["id"]"><i class="far fa-chart-bar"></i>Friends</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="fas fa-sign-out-alt"></i>Logout</a>
+                </li>
+                <li>
+                    <div class="topnav">
+                        <div class="search-container">
+                            <form id="search_form" action="Friends" method="get">
+                                <input type="text" placeholder="search for other users by email or name.." name="searchString" required>
+                                <button id="search" type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container body-content">
+        @RenderBody()
+    </div>
+
+</body>
+
+
+</html>

@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="InstagramModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Accept">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userID" Type="int" />
+    <Property Name="FriendID" Type="int" />
+  </EntityType>
+  <EntityType Name="Comment">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CommentText" Type="nvarchar(max)" />
+    <Property Name="UserId" Type="int" />
+    <Property Name="Image_ID" Type="int" />
+  </EntityType>
+  <EntityType Name="Friends">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="User_requestID" Type="int" />
+    <Property Name="User_request_toID" Type="int" />
+    <Property Name="IsAccept" Type="bit" />
+  </EntityType>
+  <EntityType Name="Like">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="ImageID" Type="int" />
+    <Property Name="IsLike" Type="bit" />
+  </EntityType>
+  <EntityType Name="Save_image">
+    <Key>
+      <PropertyRef Name="ImageID" />
+    </Key>
+    <Property Name="ImageID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="image_post" Type="nvarchar(max)" />
+    <Property Name="UserID" Type="int" />
+    <Property Name="Likes" Type="int" />
+  </EntityType>
+  <EntityType Name="Signup">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="firstname" Type="varchar" MaxLength="50" />
+    <Property Name="lastname" Type="nvarchar" MaxLength="50" />
+    <Property Name="email" Type="nvarchar" MaxLength="50" />
+    <Property Name="mobile" Type="nvarchar" MaxLength="50" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" />
+    <Property Name="ProfileImage" Type="nvarchar(max)" />
+  </EntityType>
+  <Association Name="FK_Accept_ToTable">
+    <End Role="Signup" Type="Self.Signup" Multiplicity="0..1" />
+    <End Role="Accept" Type="Self.Accept" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Accept">
+        <PropertyRef Name="userID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Accept_ToTable_1">
+    <End Role="Friends" Type="Self.Friends" Multiplicity="0..1" />
+    <End Role="Accept" Type="Self.Accept" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Friends">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Accept">
+        <PropertyRef Name="FriendID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_ToTable">
+    <End Role="Signup" Type="Self.Signup" Multiplicity="0..1" />
+    <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Comment_ToTable_1">
+    <End Role="Save_image" Type="Self.Save_image" Multiplicity="0..1" />
+    <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Save_image">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="Image_ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Friends_ToTable">
+    <End Role="Signup" Type="Self.Signup" Multiplicity="0..1" />
+    <End Role="Friends" Type="Self.Friends" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Friends">
+        <PropertyRef Name="User_requestID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Friends_ToTable_1">
+    <End Role="Signup" Type="Self.Signup" Multiplicity="0..1" />
+    <End Role="Friends" Type="Self.Friends" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Friends">
+        <PropertyRef Name="User_request_toID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Like_ToTable">
+    <End Role="Signup" Type="Self.Signup" Multiplicity="0..1" />
+    <End Role="Like" Type="Self.Like" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Like">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Like_ToTable_1">
+    <End Role="Save_image" Type="Self.Save_image" Multiplicity="0..1" />
+    <End Role="Like" Type="Self.Like" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Save_image">
+        <PropertyRef Name="ImageID" />
+      </Principal>
+      <Dependent Role="Like">
+        <PropertyRef Name="ImageID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Save_image_ToTable">
+    <End Role="Signup" Type="Self.Signup" Multiplicity="0..1" />
+    <End Role="Save_image" Type="Self.Save_image" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Signup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Save_image">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="InstagramModelStoreContainer">
+    <EntitySet Name="Accept" EntityType="Self.Accept" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Friends" EntityType="Self.Friends" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Like" EntityType="Self.Like" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Save_image" EntityType="Self.Save_image" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Signup" EntityType="Self.Signup" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Accept_ToTable" Association="Self.FK_Accept_ToTable">
+      <End Role="Signup" EntitySet="Signup" />
+      <End Role="Accept" EntitySet="Accept" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Accept_ToTable_1" Association="Self.FK_Accept_ToTable_1">
+      <End Role="Friends" EntitySet="Friends" />
+      <End Role="Accept" EntitySet="Accept" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_ToTable" Association="Self.FK_Comment_ToTable">
+      <End Role="Signup" EntitySet="Signup" />
+      <End Role="Comment" EntitySet="Comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Comment_ToTable_1" Association="Self.FK_Comment_ToTable_1">
+      <End Role="Save_image" EntitySet="Save_image" />
+      <End Role="Comment" EntitySet="Comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Friends_ToTable" Association="Self.FK_Friends_ToTable">
+      <End Role="Signup" EntitySet="Signup" />
+      <End Role="Friends" EntitySet="Friends" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Friends_ToTable_1" Association="Self.FK_Friends_ToTable_1">
+      <End Role="Signup" EntitySet="Signup" />
+      <End Role="Friends" EntitySet="Friends" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Like_ToTable" Association="Self.FK_Like_ToTable">
+      <End Role="Signup" EntitySet="Signup" />
+      <End Role="Like" EntitySet="Like" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Like_ToTable_1" Association="Self.FK_Like_ToTable_1">
+      <End Role="Save_image" EntitySet="Save_image" />
+      <End Role="Like" EntitySet="Like" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Save_image_ToTable" Association="Self.FK_Save_image_ToTable">
+      <End Role="Signup" EntitySet="Signup" />
+      <End Role="Save_image" EntitySet="Save_image" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
